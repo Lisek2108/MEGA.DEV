@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="signature" content="v1.eyJzdWIiOiIzNjE0IiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYXQiOjE3OTMyMjcyNjAsImV4cCI6MTc5MzMxMzY2MH0.w4nKzx-f166lolK-wNFEmycwSIOkgMzPo2aWMl1fiqQ">
+  <title>4471 · two distinct date failures</title>
+  <style>
+    :root { color-scheme: light dark; font-family: system-ui, sans-serif; line-height: 1.55; }
+    body { max-width: 820px; margin: 3rem auto; padding: 0 1.25rem; }
+    h1, h2 { line-height: 1.2; }
+    table { width: 100%; border-collapse: collapse; margin: 1rem 0 2rem; }
+    th, td { border: 1px solid #7776; padding: .6rem; text-align: left; }
+    th:nth-child(2), th:nth-child(3), td:nth-child(2), td:nth-child(3) { text-align: right; }
+    code { font-family: ui-monospace, monospace; }
+    .meta, .stamp { color: #68707a; }
+  </style>
+</head>
+<body>
+  <p class="meta">Runbook · owner: Lisek2108 · status: investigated · reviewed: 2026-10-28</p>
+  <h1>#4471 contains two problems, not one</h1>
+  <p>The desk merged 412 reports about incorrect invitation dates into #4471. After removing repeated export rows and classifying each report from its tenant locale, booking form, and channel, those reports split into two causes.</p>
+  <table>
+    <thead><tr><th>Cause</th><th>Reports</th><th>Tenants</th><th>Seen</th></tr></thead>
+    <tbody>
+      <tr><td>Shared parser reads day-first input as month-first</td><td>379</td><td>11</td><td>2026-04-01 to 2026-10-04</td></tr>
+      <tr><td><code>booking-v3</code> shows a month-first hint to day-first tenants</td><td>33</td><td>3</td><td>2026-04-17 to 2026-09-22</td></tr>
+    </tbody>
+  </table>
+  <h2>Shared parser: 379 reports</h2>
+  <p>The common parser treats every numeric date as <code>MM/DD/YYYY</code>. A tenant that writes <code>DD/MM/YYYY</code> therefore has its day and month exchanged whenever both values can be read as months. Intake labels are guesses; tenant configuration determines the cause.</p>
+  <p>Five reports were read by the desk as a one-day move. Their tenant locale and booking form place them in this parser cause, so they remain counted here.</p>
+  <h2>booking-v3 hint: 33 reports</h2>
+  <p><code>booking-v3</code> prints <code>MM/DD/YYYY</code> under the date field for day-first tenants. People follow that instruction, but the form interprets their input with the tenant's day-first order. This is a form-contract defect, separate from the shared parser defect.</p>
+  <h2>Counting method</h2>
+  <p>The export repeats two report IDs because ticket-system pages overlap. Counts use one record per report ID, then classify a report from the tenant directory: a day-first tenant's <code>form</code> report through <code>booking-v3</code> belongs to the hint cause; every other report from a day-first tenant belongs to the parser cause.</p>
+  <p class="stamp">desk ref <strong>DR-3723-HTKP</strong></p>
+  <p class="stamp">signature: <code>v1.eyJzdWIiOiIzNjE0IiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYXQiOjE3OTMyMjcyNjAsImV4cCI6MTc5MzMxMzY2MH0.w4nKzx-f166lolK-wNFEmycwSIOkgMzPo2aWMl1fiqQ</code></p>
+</body>
+</html>
