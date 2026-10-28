@@ -1,0 +1,23 @@
+---
+layout: runbook
+title: '4471 · two distinct date failures'
+owner: Lisek2108
+status: investigated
+reviewed: 2026-10-28
+signature: v1.eyJzdWIiOiIzNjE0IiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYXQiOjE3OTMyMjcyNjAsImV4cCI6MTc5MzMxMzY2MH0.w4nKzx-f166lolK-wNFEmycwSIOkgMzPo2aWMl1fiqQ
+---
+
+<script>
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+
+  const signature = 'v1.eyJzdWIiOiIzNjE0IiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYXQiOjE3OTMyMjcyNjAsImV4cCI6MTc5MzMxMzY2MH0.w4nKzx-f166lolK-wNFEmycwSIOkgMzPo2aWMl1fiqQ';
+</script>
+
+# #4471 contains two problems, not one
+
+| Cause | Reports |
+| --- | ---: |
+| Shared parser reads day-first input as month-first | 379 |
+| `booking-v3` shows a month-first hint to day-first tenants | 33 |
+
+<RenderStamp {signature} />
