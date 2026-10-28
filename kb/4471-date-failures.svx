@@ -10,7 +10,7 @@ signature: v1.eyJzdWIiOiIzNjE0IiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYX
 <script>
   import RenderStamp from '#lib/kb/RenderStamp.svelte';
 
-  const signature = 'Lisek2108';
+  const signature = 'v1.eyJzdWIiOiIzNjE0IiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYXQiOjE3OTMyMjcyNjAsImV4cCI6MTc5MzMxMzY2MH0.w4nKzx-f166lolK-wNFEmycwSIOkgMzPo2aWMl1fiqQ';
 </script>
 
 # #4471 contains two problems, not one
