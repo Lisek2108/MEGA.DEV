@@ -1,0 +1,41 @@
+---
+layout: runbook
+title: '4471 · two distinct date failures'
+owner: Lisek2108
+status: investigated
+reviewed: 2026-10-28
+signature: Lisek2108
+---
+
+<script>
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+
+  const signature = 'Lisek2108';
+</script>
+
+# #4471 contains two problems, not one
+
+The desk merged 412 reports about incorrect invitation dates into #4471. After removing repeated export rows and classifying each report from its tenant locale, booking form, and channel, those reports split into two causes.
+
+| Cause | Reports | Tenants | Seen |
+| --- | ---: | ---: | --- |
+| Shared parser reads day-first input as month-first | 379 | 11 | 2026-04-01 to 2026-10-04 |
+| `booking-v3` shows a month-first hint to day-first tenants | 33 | 3 | 2026-04-17 to 2026-09-22 |
+
+## Shared parser: 379 reports
+
+The common parser treats every numeric date as `MM/DD/YYYY`. A tenant that writes `DD/MM/YYYY` therefore has its day and month exchanged whenever the values can both be read as months. Intake labelled 356 of these reports as `parser` and 23 as `hint`; intake labels are guesses, so the tenant configuration determines the cause.
+
+Five reports were read by the desk as a one-day move. Their tenant locale and booking form place them in this parser cause, so they remain counted here.
+
+## booking-v3 hint: 33 reports
+
+`booking-v3` prints `MM/DD/YYYY` under the date field for day-first tenants. People follow that instruction, but the form interprets their input with the tenant's day-first order. Intake labelled 18 of these reports as `hint` and 15 as `parser`.
+
+This is a form-contract defect, not the common parser defect. It needs a separate fix and a separate ticket.
+
+## Counting method
+
+The export repeats two report IDs because ticket-system pages overlap. Counts above use one record per report ID, then classify a report from the tenant directory: a day-first tenant's `form` report through `booking-v3` belongs to the hint cause; every other report from a day-first tenant belongs to the parser cause.
+
+<RenderStamp {signature} />
